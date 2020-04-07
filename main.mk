@@ -59,6 +59,7 @@ vpath %.cc $(BASE)
 
 # Include commands.
 include $(BUILD)/gcc.mk
+include $(BUILD)/bmp.mk
 
 # Include flags.
 include $(BUILD)/arch.mk
@@ -74,6 +75,14 @@ OBJS += $(filter %.o,$(SOURCES:%.cc=$(OBJDIR)/%.o))
 .PHONY: all build
 all: elf size
 build: bin hex lst sym map size
+
+# Flash/Debug rules.
+.PHONY: flash debug
+flash: elf size
+	$(Q)$(BMP_FLASH) $(PROGRAM).elf
+
+debug: elf size
+	$(Q)$(BMP_DEBUG) $(PROGRAM).elf
 
 # Binary rules.
 .PHONY: bin hex lst sym map elf
