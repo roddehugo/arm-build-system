@@ -1,0 +1,23 @@
+#!/usr/bin/env awk -f
+# Usage: get-section-length -v section=r[ao]m ldscript.ld
+
+BEGIN { FS="="; }
+
+# Strip whitespace.
+function strip(s) {
+    gsub("[[:space:]]", "", s);
+    return s;
+}
+
+# Convert ld length format "(0x[0-9A-F]+|[0-9]+[KMG]?)" to decimal.
+# e.g. 0x5000, 65536, 20K, 128M, 2G.
+function decimal(s) {
+    if(gsub("K", "", s)) { mul = 1024; }
+    else if(gsub("M", "", s)) { mul = 1e3 * 1024; }
+    else if(gsub("G", "", s)) { mul = 1e6 * 1024; }
+    else { mul = 1; }
+    return strtonum(s) * mul;
+}
+
+# Find section definition's length, split with '='.
+$0 ~ section".*LENGTH" { printf("%d", decimal(strip($3))) }

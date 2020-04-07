@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+here=$(dirname "$0")
+
+# Static variables.
+bars=20
+ublk="\u2588"
+sizeprog=arm-none-eabi-size
+awkscript=$here/get-section-length
+
+# Check mandatory arguments.
+if [ "$#" -lt 3 ]; then
+    echo "Usage: $(basename "$0") file ldscript [size-prog]"
+    echo " file      an binary file to be used by $sizeprog"
+    echo " ldscript  linker script with ROM and RAM sections defined"
+    echo " size-prog override $sizeprog with user defined program"
+    exit 1
+fi
+
+# Print region size summary with a nice horizontal bar graph.
+function print_region() {
+    local name=$1
+    local size=$2
+    local max=$3
+    local numlen=$4
+    local denlen=$5
+
+    local pct=0
+    local blocks=
+    local n=$((bars * size/max))
+    if [[ "$n" -gt 0 ]]; then
+        blocks=$(printf "${ublk}%.s" $(eval "echo {1..$n}"))
+        n=$((bars + 2*n)) # Unicode is interpreted as 3 chars long by printf.
+    else
+        n=$bars
+    fi
+
+    pct=$(echo "$size $max" | awk '{printf "%5.2f\n", 100 * $1/$2}')
+    printf "$name: %${numlen}s / %${denlen}s [[%-${n}s]] ($pct%%)\n" "$size" "$max" "$blocks"
+}
+
+# Get maximum string length between two strings.
+function maxlen() {
+    local a=${#1}
+    local b=${#2}
+    echo $((a > b ? a : b))
+}
+
+# Read program arguments.
+file=$1
+ldscript=$2
+[ -n "$4" ] && sizeprog="$4"
+
+# Extract max ROM and RAM sizes using awk and ld script.
+rommax=$(awk -v section=rom -f $awkscript $ldscript)
+rammax=$(awk -v section=ram -f $awkscript $ldscript)
+
+# Use size program to get text, data and bss section sizes.
+raw=$($sizeprog $file)
+
+# Cut output from size program to extract each datum.
+text=$(echo $raw | cut -d ' ' -f 7)
+data=$(echo $raw | cut -d ' ' -f 8)
+bss=$(echo $raw | cut -d ' ' -f 9)
+
+# Compute ROM and RAM total sizes.
+romsize=$((text + data))
+ramsize=$((data + bss))
+
+# Compute max string length for nice alignment.
+numlen=$(maxlen "$romsize" "$ramsize")
+denlen=$(maxlen "$rommax" "$rammax")
+
+# Print regions summary.
+print_region "ROM" "$romsize" "$rommax" "$numlen" "$denlen"
+print_region "RAM" "$ramsize" "$rammax" "$numlen" "$denlen"

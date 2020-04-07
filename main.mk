@@ -88,7 +88,7 @@ elf: $(PROGRAM).elf
 .PHONY: size
 size: $(PROGRAM).elf
 	@echo "SIZE  $<"
-	$(Q)$(SIZE) $<
+	$(Q)$(BUILD)/tools/print-fw-size $< $(LDPATH)/$(LDSCRIPT) $(SIZE)
 
 # Cleaning rules.
 .PHONY: clean distclean
