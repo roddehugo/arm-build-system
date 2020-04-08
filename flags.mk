@@ -30,7 +30,7 @@ CXXFLAGS += -fno-rtti # Disable generation of information about every class with
 CXXFLAGS += -fno-threadsafe-statics # Do not emit the extra code to use the routines specified in the C++ ABI for thread-safe initialization of local statics.
 
 # C & C++ preprocessor flags.
-CPPFLAGS += $(DEFS)
+CPPFLAGS += $(DEFS) $(ARCH_DEFS)
 CPPFLAGS += -MP # Emit dummy dependency rules.
 CPPFLAGS += -MMD # List only user header files.
 
