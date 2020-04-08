@@ -26,12 +26,19 @@ This build system is a combination of some of the best resources available:
 
 ## Documentation
 
+### Migrating to C++
+
+- [Add support for static constructors and destructors • PR #126 • libopencm3](https://github.com/libopencm3/libopencm3/pull/126)
+- [C++ runtime support functions • RIOT-OS](https://github.com/RIOT-OS/RIOT/blob/master/sys/cpp11-compat/cppsupport.cpp)
+- [System Calls • ucoolib](https://github.com/schodet/ucoolib/blob/master/ucoo/arch/syscalls.cc)
+- [System Calls' Newlib port • ucoolib](https://github.com/schodet/ucoolib/blob/master/ucoo/arch/syscalls.newlib.cc)
+
 ### Blogs
 
-- [From Zero to main() / Interrupt's Blog](https://interrupt.memfault.com/tag/zero-to-main)
-- [Code Size Optimization / Interrupt's Blog](https://interrupt.memfault.com/tag/fw-code-size)
-- [STM32 Bare metal examples / Vivonomicon's Blog](https://vivonomicon.com/category/stm32_baremetal_examples/)
-- [Bare metal ARM - Compiler flag analysis / Uvoks' Blog](https://blog.uvokchee.de/2019/07/arm-bare-metal-flags.html)
-- [Bare metal C programming on ARM / Daniels Umanovskis' eBook](https://github.com/umanovskis/baremetal-arm)
-- [ARM programming / Embedded Artistry's Blog](https://embeddedartistry.com/blog/tag/arm/)
-- [STM32 programming with libopencm3 / Ross Schlaikjer's Blog](https://rhye.org/post/stm32-with-opencm3-0-compiling-and-uploading/)
+- [From Zero to main() • Interrupt's Blog](https://interrupt.memfault.com/tag/zero-to-main)
+- [Code Size Optimization • Interrupt's Blog](https://interrupt.memfault.com/tag/fw-code-size)
+- [ARM programming • Embedded Artistry's Blog](https://embeddedartistry.com/blog/tag/arm/)
+- [STM32 Bare metal examples • Vivonomicon's Blog](https://vivonomicon.com/category/stm32_baremetal_examples/)
+- [Bare metal ARM - Compiler flag analysis • Uvoks' Blog](https://blog.uvokchee.de/2019/07/arm-bare-metal-flags.html)
+- [Bare metal C programming on ARM • Daniels Umanovskis' eBook](https://github.com/umanovskis/baremetal-arm)
+- [STM32 programming with libopencm3 • Ross Schlaikjer's Blog](https://rhye.org/post/stm32-with-opencm3-0-compiling-and-uploading/)
