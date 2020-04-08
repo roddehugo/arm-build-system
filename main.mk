@@ -73,7 +73,7 @@ OBJS += $(filter %.o,$(SOURCES:%.cc=$(OBJDIR)/%.o))
 
 # Main rules.
 .PHONY: all build
-all: bin hex lst sym map size
+all: bin hex lst sym map elf size
 build: elf size
 
 # Flash/Debug rules.
