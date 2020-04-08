@@ -14,11 +14,11 @@
 	@echo "SYM   $@"
 	$(Q)$(NM) -n -S $< > $@
 
-%.map: $(OBJS) $(LIBDEPS)
+%.map: $(OBJS) $(LIBDEPS) $(LDSCRIPT)
 	@echo "MAP   $@"
 	$(Q)$(LD) $(LDFLAGS) $(MAPFLAGS) $(OBJS) $(LDLIBS) -o $@
 
-%.elf: $(OBJS) $(LIBDEPS)
+%.elf: $(OBJS) $(LIBDEPS) $(LDSCRIPT)
 	@echo "LD    $@"
 	$(Q)$(LD) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $@
 

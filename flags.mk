@@ -37,7 +37,7 @@ CPPFLAGS += -MMD # List only user header files.
 # Linker flags.
 LDFLAGS += $(DEBUG)
 LDFLAGS += $(ARCH_FLAGS)
-LDFLAGS += -T$(LDSCRIPT) -L$(LDPATH)
+LDFLAGS += -T$(LDSCRIPT) $(LDPATHS)
 LDFLAGS += -nostartfiles # No standard system startup files.
 LDFLAGS += -Wl,--gc-sections # Enable garbage collection of unused input sections.
 

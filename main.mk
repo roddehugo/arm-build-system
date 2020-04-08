@@ -20,7 +20,7 @@ endif
 
 # Be silent per default, but 'make V=1' will show all compiler calls.
 ifneq ($(V),1)
-Q := @
+Q = @
 endif
 
 # Get directory of this Makefile.
@@ -49,8 +49,8 @@ INCLUDES += -I$(BASE)
 INCLUDES += -I$(OBJDIR)
 
 # Linkable libraries.
-LDLIBS += $(LIBS)
-LDPATH += $(BUILD)/ld
+LDLIBS += $(LIBS:%=-l%)
+LDPATHS += -L$(BASE)/ld
 
 # Virtual paths.
 vpath %.S $(BASE)
@@ -97,7 +97,7 @@ elf: $(PROGRAM).elf
 .PHONY: size
 size: $(PROGRAM).elf
 	@echo "SIZE  $<"
-	$(Q)$(BUILD)/tools/print-fw-size $< $(LDPATH)/$(LDSCRIPT) $(SIZE)
+	$(Q)$(BUILD)/tools/print-fw-size $< $(LDSCRIPT) $(SIZE)
 
 # Cleaning rules.
 .PHONY: clean distclean
