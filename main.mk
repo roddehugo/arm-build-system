@@ -21,6 +21,7 @@ endif
 # Be silent per default, but 'make V=1' will show all compiler calls.
 ifneq ($(V),1)
 Q = @
+MAKEFLAGS += --no-print-directory
 endif
 
 # Get directory of this Makefile.
@@ -119,6 +120,9 @@ include $(BUILD)/rules.mk
 
 # Include help rules.
 include $(BUILD)/print.mk
+
+# Lastly include libopencm3.
+include $(BASE)/libopencm3.mk
 
 # Include dependency checking rules.
 -include $(OBJS:.o=.d)
