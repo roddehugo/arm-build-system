@@ -124,7 +124,7 @@ include $(BUILD)/rules.mk
 include $(BUILD)/print.mk
 
 # Lastly include libopencm3.
-include $(BASE)/libopencm3.mk
+include $(BUILD)/libopencm3.mk
 
 # Include dependency checking rules.
 -include $(OBJS:.o=.d)
