@@ -1,8 +1,8 @@
-BASE := ../..
+BASE = ../..
 
-TARGET := bluepill
+TARGET = bluepill
 
-PROGRAM := testc
-SOURCES := testc.c
+PROGRAM = testc
+SOURCES = testc.c
 
 include $(BASE)/main.mk
