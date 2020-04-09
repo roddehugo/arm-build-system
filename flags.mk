@@ -31,6 +31,7 @@ CXXFLAGS += -fno-threadsafe-statics # Do not emit the extra code to use the rout
 
 # C & C++ preprocessor flags.
 CPPFLAGS += $(DEFS) $(ARCH_DEFS)
+CPPFLAGS += $(INCLUDES)
 CPPFLAGS += -MP # Emit dummy dependency rules.
 CPPFLAGS += -MMD # List only user header files.
 
