@@ -53,7 +53,7 @@ INCLUDES += -I$(OBJDIR)
 
 # Linkable libraries.
 LDLIBS += $(LIBS:%=-l%)
-LDPATHS += -L$(BASE)/ld
+LDPATHS += -L$(BUILD)/ld
 
 # Virtual paths.
 vpath %.S $(BASE)

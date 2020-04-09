@@ -4,4 +4,4 @@
 include $(BUILD)/arch/$(TARGET).mk
 
 # If no LDSCRIPT specified, fallback on target name.
-LDSCRIPT ?= $(BASE)/ld/$(TARGET).ld
+LDSCRIPT ?= $(BUILD)/ld/$(TARGET).ld
