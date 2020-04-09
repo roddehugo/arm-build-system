@@ -4,11 +4,11 @@ typedef void (*vector_t) (void);
 
 typedef struct
 {
-    uint32_t *stack;
-    vector_t entry;
+    uint32_t *initial_stack;
+    vector_t reset_handler;
 } vector_table_t;
 
-void entry (void);
+void reset_handler (void);
 void halt (void);
 void deadbeef (void);
 
@@ -21,8 +21,8 @@ extern uint32_t _ebss;
 vector_table_t vector_table
 __attribute__ ((section (".vectors"))) =
 {
-    .stack = &_stack,
-    .entry = entry,
+    .initial_stack = &_stack,
+    .reset_handler = reset_handler,
 };
 
 void
@@ -40,7 +40,7 @@ halt (void)
 }
 
 void __attribute__ ((naked))
-entry (void)
+reset_handler (void)
 {
     uint32_t *src = &_data_loadaddr;
     uint32_t *dst = &_data;

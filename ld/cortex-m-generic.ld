@@ -29,7 +29,7 @@ MEMORY
 	ram (rwx) : ORIGIN = 0x20000000, LENGTH = 16K
 }
 
-INCLUDE cortex-m.ld
+INCLUDE cortex-m-generic.ld
 
 */
 
@@ -37,23 +37,21 @@ INCLUDE cortex-m.ld
 EXTERN (vector_table)
 
 /* Define the entry point of the output file. */
-ENTRY(entry)
+ENTRY(reset_handler)
 
 /* Define sections. */
 SECTIONS
 {
-	/* TEXT section for code & constants.
-	 * Keep the vector table at the very beginning! */
 	.text : {
-		KEEP(*(.vectors))	/* Vector table. */
-		*(.text*)		/* Program code. */
+		*(.vectors)	/* Vector table. */
+		*(.text*)	/* Program code. */
 		. = ALIGN(4);
-		*(.rodata*)		/* Read-only data. */
+		*(.rodata*)	/* Read-only data. */
 		. = ALIGN(4);
 	} >rom
 
 	/* C++ Static constructors/destructors, also used for __attribute__
-	 * ((constructor)) and the likes.  */
+	 * ((constructor)) and the likes. */
 	.preinit_array : {
 		. = ALIGN(4);
 		__preinit_array_start = .;
@@ -89,20 +87,16 @@ SECTIONS
 	. = ALIGN(4);
 	_etext = .;
 
-	/* DATA section which is used for initialized data.
-	 * Should be loaded to ROM and copied to RAM. */
 	.data : {
 		_data = .;
-		*(.data*)		/* Read-write initialized data. */
+		*(.data*)	/* Read-write initialized data. */
 		. = ALIGN(4);
 		_edata = .;
 	} >ram AT >rom
 	_data_loadaddr = LOADADDR(.data);
 
-	/* BSS section which is used for uninitialized static data.
-	 * Nothing to load, all variables will be initialized to zero. */
-	.bss (NOLOAD) : {
-		*(.bss*)		/* Read-write zero initialized data. */
+	.bss : {
+		*(.bss*)	/* Read-write zero initialized data. */
 		*(COMMON)
 		. = ALIGN(4);
 		_ebss = .;

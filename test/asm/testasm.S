@@ -6,18 +6,18 @@
 
 // Global memory locations.
 .global vectors
-.global entry
+.global reset_handler
 
 // The actual vector table.
 .type vectors, %object
 vectors:
     .word _stack
-    .word entry
+    .word reset_handler
 .size vectors, .-vectors
 
-// The entry point. Called on reset.
-.type entry, %function
-entry:
+// The entry point, as the reset_handler. Called on reset.
+.type reset_handler, %function
+reset_handler:
   // Set the stack pointer to the end of the stack.
   // The '_stack' value is defined in our linker script.
   LDR  r0, =_stack
@@ -34,4 +34,4 @@ entry:
     ADDS r0, r0, #1
     // Loop back.
     B    loop
-.size entry, .-entry
+.size reset_handler, .-reset_handler
