@@ -3,7 +3,7 @@
 here=$(dirname "$0")
 
 # Static variables.
-bars=20
+bars=25
 ublk="\u2588"
 sizeprog=arm-none-eabi-size
 awkscript=$here/get-section-length
@@ -36,7 +36,7 @@ function print_region() {
     fi
 
     pct=$(echo "$size $max" | awk '{printf "%5.2f\n", 100 * $1/$2}')
-    printf "$name: %${numlen}s / %${denlen}s [[%-${n}s]] ($pct%%)\n" "$size" "$max" "$blocks"
+    printf "%-6s%${numlen}s / %${denlen}s [[%-${n}s]] ($pct%%)\n" "$name" "$size" "$max" "$blocks"
 }
 
 # Get maximum string length between two strings.
