@@ -1,3 +1,5 @@
+# libopencm3 - Open source ARM Cortex-M microcontroller library.
+
 # Automatically lookup for libopencm3.
 ifeq ($(OPENCM3_DIR),)
 # Where we search for the library.

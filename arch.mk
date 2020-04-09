@@ -1,3 +1,5 @@
+# ARM Cortex-M build system.
+
 # Include targeted architecture.
 include $(BUILD)/arch/$(TARGET).mk
 

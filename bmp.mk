@@ -1,3 +1,5 @@
+# ARM Cortex-M build system.
+
 # Where our Black Magic Probe is attached.
 BMP_PORT ?= $(firstword $(wildcard /dev/cu.usbmodem*1))
 BMP_PROG = $(GDB) --silent -ex 'target extended-remote $(BMP_PORT)'

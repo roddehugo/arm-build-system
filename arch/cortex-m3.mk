@@ -1,3 +1,5 @@
+# ARM Cortex-M build system.
+
 # Cortex-M3 arch flags.
 ARCH_FLAGS += -mthumb # Use Thumb instruction sets.
 ARCH_FLAGS += -mcpu=cortex-m3 # Use Cortex-M3 processor.

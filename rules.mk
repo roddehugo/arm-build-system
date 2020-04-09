@@ -1,3 +1,5 @@
+# ARM Cortex-M build system.
+
 %.bin: %.elf
 	@echo "BIN   $@"
 	$(Q)$(OBJCOPY) -O binary $< $@

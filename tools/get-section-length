@@ -1,4 +1,5 @@
 #!/usr/bin/env awk -f
+# ARM Cortex-M build system.
 # Usage: get-section-length -v section=r[ao]m ldscript.ld
 
 BEGIN { FS="="; }

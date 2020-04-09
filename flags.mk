@@ -1,3 +1,5 @@
+# ARM Cortex-M build system.
+
 # Warning flags.
 WARN_FLAGS += -Wall # Enable all warnings.
 WARN_FLAGS += -Wextra # Enable extra warnings.

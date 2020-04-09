@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# ARM Cortex-M build system.
+# Usage: print-fw-size program.elf ldscript.ld
 
 here=$(dirname "$0")
 

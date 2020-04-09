@@ -1,3 +1,5 @@
+# ARM Cortex-M build system.
+
 # Project Makefile must specify top-level directory.
 ifeq ($(BASE),)
 $(error BASE is not defined)

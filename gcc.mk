@@ -1,5 +1,9 @@
+# ARM Cortex-M build system.
+
+# User can redefine path to arm-none-eabi.
 PREFIX ?= arm-none-eabi-
 
+# ARM GNU Compiler programs.
 CC := $(PREFIX)gcc
 CXX := $(PREFIX)g++
 LD := $(PREFIX)gcc
