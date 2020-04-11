@@ -41,7 +41,7 @@ OBJDIR := obj
 include $(BUILD)/macros.mk
 
 # User defined compilation flags.
-OPT ?= -Os
+OPT ?= -Og
 DEBUG ?= -ggdb3
 CSTD ?= -std=gnu99
 CXXSTD ?= -std=gnu++11
