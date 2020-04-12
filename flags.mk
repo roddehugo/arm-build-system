@@ -6,6 +6,7 @@ WARN_FLAGS += -Wextra # Enable extra warnings.
 WARN_FLAGS += -Werror # Turn warnings into errors.
 WARN_FLAGS += -Wshadow # Warn for any global shadowing.
 WARN_FLAGS += -Wundef # Warn if an undefined identifier is evaluated.
+WARN_FLAGS += -Wno-unused-parameter # Do not warn for unused parameter.
 
 # Optimization flags.
 OPTI_FLAGS += -fno-common # Place uninitialized global variables in bss.
