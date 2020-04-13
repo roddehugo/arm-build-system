@@ -9,3 +9,5 @@ MEMORY
 
 /* Include the common ld script from libopencm3. */
 INCLUDE cortex-m-generic.ld
+/* Include GNU build ID. */
+INCLUDE gnu-build-id.ld

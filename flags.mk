@@ -44,6 +44,7 @@ LDFLAGS += $(ARCH_FLAGS)
 LDFLAGS += -T$(LDSCRIPT) $(LDPATHS)
 LDFLAGS += -nostartfiles # No standard system startup files.
 LDFLAGS += -Wl,--gc-sections # Enable garbage collection of unused input sections.
+LDFLAGS += -Wl,--build-id # Enable build ID issuance to .note.gnu.build-id section.
 
 # Map flags.
 MAPFLAGS += -Wl,-Map=$(*).map # Output some information about the link.
