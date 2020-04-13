@@ -77,14 +77,14 @@ OBJS += $(filter %.o,$(SOURCES:%.cc=$(OBJDIR)/%.o))
 # Main rules.
 .PHONY: all build
 all: bin hex lst sym map elf size
-build: elf size
+build: lst sym elf size
 
 # Flash/Debug rules.
 .PHONY: flash debug
-flash: elf size
+flash: build
 	$(Q)$(BMP_FLASH) $(PROGRAM).elf
 
-debug: elf size
+debug: build
 	$(Q)$(BMP_DEBUG) $(PROGRAM).elf
 
 # Binary rules.
@@ -103,12 +103,10 @@ size: $(PROGRAM).elf
 	$(Q)$(BUILD)/tools/print-fw-size $< $(LDSCRIPT) $(SIZE)
 
 # Cleaning rules.
-.PHONY: clean distclean
+.PHONY: clean
 clean:
 	@echo "RMDIR $(OBJDIR)"
 	$(Q)$(RMDIR) $(OBJDIR)
-
-distclean: clean
 	@echo "RM    $(PROGRAM).{bin,hex,lst,sym,map,elf}"
 	$(Q)$(RM) $(PROGRAM).{bin,hex,lst,sym,map,elf}
 
