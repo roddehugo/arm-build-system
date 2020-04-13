@@ -14,7 +14,7 @@
 
 %.sym: %.elf
 	@echo "SYM   $@"
-	$(Q)$(NM) -n -S $< > $@
+	$(Q)$(NM) -l -n -S $< > $@
 
 %.map: $(OBJS) $(LIBDEPS) $(LDSCRIPT)
 	@echo "MAP   $@"
