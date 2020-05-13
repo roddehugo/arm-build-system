@@ -121,7 +121,7 @@ include $(BUILD)/rules.mk
 # Include help rules.
 include $(BUILD)/print.mk
 
-# Lastly include libopencm3.
+# Include libopencm3.
 include $(BUILD)/libopencm3.mk
 
 # Include dependency checking rules.
