@@ -47,9 +47,11 @@ CSTD ?=
 CXXSTD ?=
 
 # Include directories.
-INCLUDES += -I.
-INCLUDES += -I$(BASE)
-INCLUDES += -I$(OBJDIR)
+INCLUDES = -I. -I$(BASE) -I$(OBJDIR)
+
+# Compiler flags.
+CFLAGS = $(OPT) $(DEBUG) $(INCLUDES)
+CXXFLAGS = $(CFLAGS) # Extend CFLAGS.
 
 # Linkable libraries.
 LDLIBS = $(LIBS:%=-l%)

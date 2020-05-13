@@ -32,9 +32,9 @@ $(OBJDIR)/%.o: %.S $(OBJDEPS) | $(OBJDIR)
 $(OBJDIR)/%.o: %.c $(OBJDEPS) | $(OBJDIR)
 	@echo "CC    $<"
 	$(call mkdir_if_needed,$@)
-	$(Q)$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
+	$(Q)$(CC) $(CSTD) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
 
 $(OBJDIR)/%.o: %.cc $(OBJDEPS) | $(OBJDIR)
 	@echo "CXX   $<"
 	$(call mkdir_if_needed,$@)
-	$(Q)$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ -c $<
+	$(Q)$(CXX) $(CXXSTD) $(CXXFLAGS) $(CPPFLAGS) -o $@ -c $<
