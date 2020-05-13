@@ -13,11 +13,6 @@ OPTI_FLAGS += -fno-common # Place uninitialized global variables in bss.
 OPTI_FLAGS += -ffunction-sections # Place each function into its own section.
 OPTI_FLAGS += -fdata-sections # Place each data into its own section.
 
-# Assembler flags.
-ASFLAGS += $(DEBUG)
-ASFLAGS += $(ARCH_FLAGS)
-ASFLAGS += -x assembler-with-cpp
-
 # C flags.
 CFLAGS += $(CSTD) $(OPT) $(DEBUG)
 CFLAGS += $(ARCH_FLAGS) $(OPTI_FLAGS) $(WARN_FLAGS)
@@ -39,7 +34,6 @@ CPPFLAGS += -MP # Emit dummy dependency rules.
 CPPFLAGS += -MMD # List only user header files.
 
 # Linker flags.
-LDFLAGS += $(DEBUG)
 LDFLAGS += $(ARCH_FLAGS)
 LDFLAGS += -T$(LDSCRIPT) $(LDPATHS)
 LDFLAGS += -nostartfiles # No standard system startup files.
