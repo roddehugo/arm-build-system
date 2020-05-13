@@ -4,4 +4,7 @@
 include $(BUILD)/arch/$(TARGET).mk
 
 # If no LDSCRIPT specified, fallback on target name.
-LDSCRIPT ?= $(BUILD)/ld/$(TARGET).ld
+LDSCRIPT ?= $(TARGET).ld
+
+# Append built-in linker scripts path.
+LDPATHS += -L$(BUILD)/ld
