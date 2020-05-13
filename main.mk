@@ -42,9 +42,9 @@ include $(BUILD)/macros.mk
 
 # User defined compilation flags.
 OPT ?= -Og
-DEBUG ?= -ggdb3
-CSTD ?= -std=gnu99
-CXXSTD ?= -std=gnu++11
+DEBUG ?= -g3
+CSTD ?=
+CXXSTD ?=
 
 # Include directories.
 INCLUDES += -I.
