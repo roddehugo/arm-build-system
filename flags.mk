@@ -32,9 +32,9 @@ CXXFLAGS += -fno-exceptions # Disable C++ exceptions. Most of the std namespace 
 CXXFLAGS += -fno-rtti # Disable generation of information about every class with virtual functions for use by the C++ run-time type identification features.
 CXXFLAGS += -fno-threadsafe-statics # Do not emit the extra code to use the routines specified in the C++ ABI for thread-safe initialization of local statics.
 
-# C & C++ preprocessor flags.
-CPPFLAGS += $(DEFS) $(ARCH_DEFS)
-CPPFLAGS += $(INCLUDES)
+# Preprocessor flags.
+DEFS += $(ARCH_DEFS)
+CPPFLAGS += $(DEFS)
 CPPFLAGS += -MP # Emit dummy dependency rules.
 CPPFLAGS += -MMD # List only user header files.
 

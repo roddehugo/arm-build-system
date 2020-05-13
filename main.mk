@@ -68,6 +68,10 @@ include $(BUILD)/bmp.mk
 include $(BUILD)/arch.mk
 include $(BUILD)/flags.mk
 
+# Make sure to rebuild sources if defines change.
+$(eval $(call cmddep,DEFS,$(OBJDIR)/defs.old))
+OBJDEPS += $(OBJDIR)/defs.old
+
 # Decline objects from source files.
 .SECONDARY: $(OBJS)
 OBJS := $(filter %.o,$(SOURCES:%.S=$(OBJDIR)/%.o))
