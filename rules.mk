@@ -24,17 +24,17 @@
 	@echo "LD    $@"
 	$(Q)$(LD) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $@
 
-$(OBJDIR)/%.o: %.S | $(OBJDIR)
+$(OBJDIR)/%.o: %.S $(OBJDEPS) | $(OBJDIR)
 	@echo "AS    $<"
 	$(call mkdir_if_needed,$@)
 	$(Q)$(CC) $(ASFLAGS) $(CPPFLAGS) -o $@ -c $<
 
-$(OBJDIR)/%.o: %.c | $(OBJDIR)
+$(OBJDIR)/%.o: %.c $(OBJDEPS) | $(OBJDIR)
 	@echo "CC    $<"
 	$(call mkdir_if_needed,$@)
 	$(Q)$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
 
-$(OBJDIR)/%.o: %.cc | $(OBJDIR)
+$(OBJDIR)/%.o: %.cc $(OBJDEPS) | $(OBJDIR)
 	@echo "CXX   $<"
 	$(call mkdir_if_needed,$@)
 	$(Q)$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ -c $<
