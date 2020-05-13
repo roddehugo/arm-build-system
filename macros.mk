@@ -28,3 +28,17 @@ tolower = $(strip \
 	$(subst P,p,$(subst Q,q,$(subst R,r,$(subst S,s,$(subst T,t,\
 	$(subst U,u,$(subst V,v,$(subst W,w,$(subst X,x,$(subst Y,y,\
 	$(subst Z,z,$1)))))))))))))))))))))))))))
+
+# Handle command line changes.
+# The given variable is saved in savefile, which should be included as target
+# dependencies.  If variable content is not the same as in previous build, the
+# savefile is made phony and the target is rebuilt.
+# $(call cmddep,VAR,savefile)
+define cmddep
+-include $2
+.PHONY: $$(if $$(call diff,$$($1_OLD),$$($1)),$2)
+$2:
+	@echo "DEP   $$@"
+	$$(call mkdir_if_needed,$$@)
+	$$(Q)echo "$1_OLD = $$($1)" > $$@
+endef
