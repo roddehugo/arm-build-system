@@ -19,16 +19,7 @@ CXXFLAGS += -fno-exceptions # Disable C++ exceptions.
 CXXFLAGS += -fno-rtti # Disable generation run-time type identification.
 CXXFLAGS += -fno-threadsafe-statics # Do not emit code for safe init of statics.
 
-# Preprocessor flags.
-DEFS += $(ARCH_DEFS)
-CPPFLAGS += $(DEFS)
-CPPFLAGS += -MP # Emit dummy dependency rules.
-CPPFLAGS += -MMD # List only user header files.
-
 # Linker flags.
-LDFLAGS += $(ARCH_FLAGS)
-LDFLAGS += -T$(LDSCRIPT) $(LDPATHS)
-LDFLAGS += -nostartfiles # No standard system startup files.
 LDFLAGS += -Wl,--gc-sections # Enable gc of unused input sections.
 LDFLAGS += -Wl,--build-id # Enable build id into .note.gnu.build-id section.
 

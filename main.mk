@@ -41,10 +41,11 @@ OBJDIR := obj
 include $(BUILD)/macros.mk
 
 # User defined compilation flags.
-OPT ?= -Og
-DEBUG ?= -g3
-CSTD ?=
-CXXSTD ?=
+OPT ?= -Og # Define optimization level (0, 1, 2, 3, s, g).
+DEBUG ?= -g3 # Define debug level (0, 1, 3).
+CSTD ?= # Define C standard to use for C sources.
+CXXSTD ?= # Define C++ standard to use for C++ sources.
+DEPS ?= -MP -MMD # Emit dummy dependency rules for user header files.
 
 # Include directories.
 INCLUDES = -I. -I$(BASE) -I$(OBJDIR)
@@ -52,9 +53,10 @@ INCLUDES = -I. -I$(BASE) -I$(OBJDIR)
 # Compiler flags.
 CFLAGS = $(OPT) $(DEBUG) $(INCLUDES)
 CXXFLAGS = $(CFLAGS) # Extend CFLAGS.
+CPPFLAGS = $(DEFS) $(DEPS)
 
 # Linkable libraries.
-LDLIBS = $(LIBS:%=-l%)
+LDLIBS += $(LIBS:%=-l%) # Caveat for user defined libraries.
 
 # Virtual paths.
 vpath %.S $(BASE)
@@ -115,13 +117,55 @@ clean:
 	@echo "RM    $(PROGRAM).{bin,hex,lst,sym,map,elf}"
 	$(Q)$(RM) $(PROGRAM).{bin,hex,lst,sym,map,elf}
 
+# Linker script check.
+$(LDSCRIPT):
+	$(error Linker script $(LDSCRIPT) not found)
+
 # Making objects directory rule.
 $(OBJDIR):
 	@echo "MKDIR $@"
 	$(Q)$(MKDIR) $@
 
-# Include build rules.
-include $(BUILD)/rules.mk
+# Binary rules.
+%.bin: %.elf
+	@echo "BIN   $@"
+	$(Q)$(OBJCOPY) -O binary $< $@
+
+%.hex: %.elf
+	@echo "HEX   $@"
+	$(Q)$(OBJCOPY) -O ihex $< $@
+
+%.lst: %.elf
+	@echo "LST   $@"
+	$(Q)$(OBJDUMP) -h -S $< > $@
+
+%.sym: %.elf
+	@echo "SYM   $@"
+	$(Q)$(NM) -l -n -S $< > $@
+
+%.map: $(OBJS) $(LIBDEPS) $(LDSCRIPT)
+	@echo "MAP   $@"
+	$(Q)$(LD) $(LDFLAGS) $(MAPFLAGS) $(OBJS) $(LDLIBS) -o $@
+
+%.elf: $(OBJS) $(LIBDEPS) $(LDSCRIPT)
+	@echo "LD    $@"
+	$(Q)$(LD) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $@
+
+# Object rules.
+$(OBJDIR)/%.o: %.S $(OBJDEPS) | $(OBJDIR)
+	@echo "AS    $<"
+	$(call mkdir_if_needed,$@)
+	$(Q)$(CC) $(ASFLAGS) $(CPPFLAGS) -o $@ -c $<
+
+$(OBJDIR)/%.o: %.c $(OBJDEPS) | $(OBJDIR)
+	@echo "CC    $<"
+	$(call mkdir_if_needed,$@)
+	$(Q)$(CC) $(CSTD) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
+
+$(OBJDIR)/%.o: %.cc $(OBJDEPS) | $(OBJDIR)
+	@echo "CXX   $<"
+	$(call mkdir_if_needed,$@)
+	$(Q)$(CXX) $(CXXSTD) $(CXXFLAGS) $(CPPFLAGS) -o $@ -c $<
 
 # Include help rules.
 include $(BUILD)/print.mk
