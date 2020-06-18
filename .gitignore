@@ -12,6 +12,9 @@
 *.map
 *.elf
 
+# Make
+*.old
+
 # Debug files
 *.dSYM/
 
