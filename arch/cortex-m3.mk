@@ -12,4 +12,4 @@ ARCH_DEFS += $(call ifdefined,FAMILY,-D$(call toupper,$(FAMILY)))
 
 # Cortex-M3 arch libraries.
 ARCH_LIBS += -nostartfiles # No standard system startup files.
-ARCH_LIBS += --specs=$(SPECS)
+ARCH_LIBS += --specs=$(SPECS) # Specify which C library to link against.
