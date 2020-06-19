@@ -63,6 +63,11 @@ vpath %.S $(BASE)
 vpath %.c $(BASE)
 vpath %.cc $(BASE)
 
+# Main rules.
+.PHONY: all build
+all: bin hex lst sym map elf size
+build: lst sym elf size
+
 # Include commands.
 include $(BUILD)/gcc.mk
 include $(BUILD)/bmp.mk
@@ -80,11 +85,6 @@ OBJDEPS += $(OBJDIR)/defs.old
 OBJS := $(filter %.o,$(SOURCES:%.S=$(OBJDIR)/%.o))
 OBJS += $(filter %.o,$(SOURCES:%.c=$(OBJDIR)/%.o))
 OBJS += $(filter %.o,$(SOURCES:%.cc=$(OBJDIR)/%.o))
-
-# Main rules.
-.PHONY: all build
-all: bin hex lst sym map elf size
-build: lst sym elf size
 
 # Flash/Debug rules.
 .PHONY: flash debug
@@ -118,8 +118,8 @@ clean:
 	$(Q)$(RM) $(PROGRAM).{bin,hex,lst,sym,map,elf}
 
 # Linker script check.
-$(LDSCRIPT):
-	$(error Linker script $(LDSCRIPT) not found)
+# $(LDSCRIPT):
+# 	$(error Linker script $(LDSCRIPT) not found)
 
 # Making objects directory rule.
 $(OBJDIR):
