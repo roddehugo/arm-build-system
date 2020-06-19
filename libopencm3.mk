@@ -5,7 +5,7 @@ ifeq ($(OPENCM3_DIR),)
 # Where we search for the library.
 OPENCM3_PATHS := $(BASE)/libopencm3 $(BASE)/lib/libopencm3
 OPENCM3_DIR := $(wildcard $(OPENCM3_PATHS:=/locm3.sublime-project))
-OPENCM3_DIR := $(firstword $(dir $(OPENCM3_DIR)))
+OPENCM3_DIR := $(patsubst %/,%,$(firstword $(dir $(OPENCM3_DIR))))
 endif
 
 # Only if the library is found. It is optional after all.
