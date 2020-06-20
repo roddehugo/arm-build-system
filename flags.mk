@@ -7,7 +7,6 @@ CFLAGS += -Werror # Turn warnings into errors.
 CFLAGS += -Wshadow # Warn for any global shadowing.
 CFLAGS += -Wundef # Warn if an undefined identifier is evaluated.
 CFLAGS += -Wformat=2 # Enable '-Wformat' plus additional format checks.
-CFLAGS += -Wdouble-promotion # Warn for float implicitly promoted to double.
 CFLAGS += -Wno-unused-parameter # Do not warn for unused parameter.
 CFLAGS += -Wno-unused-function # Do not warn for unused functions.
 CFLAGS += -fno-common # Place uninitialized global variables in bss.
