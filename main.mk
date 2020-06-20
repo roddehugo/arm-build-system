@@ -91,7 +91,7 @@ OBJS += $(filter %.o,$(SOURCES:%.cc=$(OBJDIR)/%.o))
 flash: build
 	$(Q)$(BMP_FLASH) $(PROGRAM).elf
 
-debug: build
+debug:
 	$(Q)$(BMP_DEBUG) $(PROGRAM).elf
 
 # Binary rules.
