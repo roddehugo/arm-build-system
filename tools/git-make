@@ -1,0 +1,123 @@
+#!/usr/bin/env python3
+
+"""Seek Makefiles and run given targets."""
+
+import os
+import sys
+import argparse
+import subprocess
+import multiprocessing
+
+
+class Result:
+    def __init__(self):
+        self.fails = 0
+        self.failed = []
+
+    def status(self):
+        exitcode = 1
+        status = []
+        if self.fails:
+            status.append('fails: ' + str(self.fails))
+        if not self.fails:
+            status.append('pass')
+            exitcode = 0
+        return status, exitcode
+
+
+class Runner:
+    def __init__(self, jobs, targets, clean, toolchain):
+        self.jobs = jobs
+        self.targets = targets
+        self.clean = clean
+        self.toolchain = toolchain
+
+    def get_environment(self):
+        env = os.environ.copy()
+        if self.toolchain:
+            env['TOOLCHAIN'] = self.toolchain
+        return env
+
+    def get_clean_command(self, d):
+        return ['make', '-C', d, 'clean']
+
+    def get_targets_command(self, d):
+        return ['make', '-j', str(self.jobs), '-C', d] + self.targets
+
+    def run_command(self, cmd, stdout):
+        env = self.get_environment()
+        ret = subprocess.call(cmd, env=env, stdout=stdout)
+        return ret == 0
+
+    def handle_result(self, d, r, passed):
+        if not passed:
+            r.fails += 1
+            r.failed.append(d)
+        return passed
+
+    def run(self, d, r, stdout):
+        stdout.flush()
+        passed = True
+        if self.clean:
+            cmd = self.get_clean_command(d)
+            passed = self.run_command(cmd, stdout)
+        if passed:
+            cmd = self.get_targets_command(d)
+            passed = self.run_command(cmd, stdout)
+        return self.handle_result(d, r, passed)
+
+
+if __name__ == "__main__":
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument('targets', nargs='*',
+                   metavar='TARGET', help='set Makefile targets')
+    p.add_argument('-v', '--verbose', action='store_true', default=False,
+                   help='sink stdout into a black hole')
+    p.add_argument('-i', '--include', action='append',
+                   metavar='DIR', help='only run in listed directories')
+    p.add_argument('-e', '--exclude', action='append',
+                   metavar='DIR', help='do not run in listed directories')
+    p.add_argument('-j', '--jobs', type=int, metavar='JOBS',
+                   dest = 'jobs', default=8,
+                   help='parallel build job count to use (passed to make)')
+    p.add_argument('--clean', action='store_true', default=False,
+                   help='perform a make clean before targets')
+    p.add_argument('--toolchain', default=None,
+                   choices=['clang', 'gcc', 'arm-gcc'],
+                   help='specify a toolchain to use with make')
+
+    opts = p.parse_args()
+
+    if opts.jobs > multiprocessing.cpu_count() * 2:
+        print('Warning: parallel build using {0} jobs (> 2x{1} cpus)!'.format(
+            opts.jobs, multiprocessing.cpu_count()))
+
+    if opts.include:
+        dirs = opts.include
+    else:
+        files = subprocess.check_output(['git', 'ls-files'], universal_newlines=True)
+        dirs = [os.path.dirname(f) for f in files.split('\n') if f.endswith('/Makefile')]
+
+    if opts.exclude:
+        exclude_set = set(opts.exclude)
+        dirs = [d for d in dirs if d not in exclude_set]
+
+    result = Result()
+    runner = Runner(opts.jobs, opts.targets, opts.clean, opts.toolchain)
+    out = sys.stdout if opts.verbose else open(os.devnull, 'w')
+    clean = '(clean)' if opts.clean else ''
+    toolchain = '({})'.format(opts.toolchain) if opts.toolchain else ''
+    for d in dirs:
+        print('>>>', d, toolchain, clean)
+        passed = runner.run(d, result, out)
+        passfail = 'PASS' if passed else 'FAIL'
+        print('<<<', d, passfail)
+
+    s, exitcode = result.status()
+    if result.failed:
+        print('=== failed tests:')
+        for d in result.failed:
+            print('=== ', d)
+    print('=== status:', ', '.join(s))
+
+    sys.exit(exitcode)
