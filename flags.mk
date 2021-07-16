@@ -23,8 +23,8 @@ LDFLAGS += -Wl,--gc-sections # Enable gc of unused input sections.
 LDFLAGS += -Wl,--build-id # Enable build id into .note.gnu.build-id section.
 
 # Map flags.
-MAPFLAGS += -Wl,-Map=$(*).map # Output some information about the link.
-MAPFLAGS += -Wl,--cref # Output a cross reference table.
+LDFLAGS += -Wl,-Map=$(*).map # Output some information about the link.
+LDFLAGS += -Wl,--cref # Output a cross reference table.
 
 # Debug linking output.
 ifeq ($(V),99)

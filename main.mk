@@ -65,7 +65,7 @@ vpath %.cc $(BASE)
 
 # Main rules.
 .PHONY: all build
-all: bin hex lst sym map elf size
+all: bin hex lst sym elf size
 build: lst sym elf size
 
 # Include commands.
@@ -95,12 +95,11 @@ debug:
 	$(Q)$(BMP_DEBUG) $(PROGRAM).elf
 
 # Binary rules.
-.PHONY: bin hex lst sym map elf
+.PHONY: bin hex lst sym elf
 bin: $(PROGRAM).bin
 hex: $(PROGRAM).hex
 lst: $(PROGRAM).lst
 sym: $(PROGRAM).sym
-map: $(PROGRAM).map
 elf: $(PROGRAM).elf
 
 # Size rule.
@@ -118,8 +117,8 @@ clean:
 	$(Q)$(RM) $(PROGRAM).{bin,hex,lst,sym,map,elf}
 
 # Linker script check.
-# $(LDSCRIPT):
-# 	$(error Linker script $(LDSCRIPT) not found)
+$(LDSCRIPT):
+	$(error Linker script $(LDSCRIPT) not found)
 
 # Making objects directory rule.
 $(OBJDIR):
@@ -143,29 +142,25 @@ $(OBJDIR):
 	@echo "SYM   $@"
 	$(Q)$(NM) -l -n -S $< > $@
 
-%.map: $(OBJS) $(LIBDEPS) $(LDSCRIPT)
-	@echo "MAP   $@"
-	$(Q)$(LD) $(LDFLAGS) $(MAPFLAGS) $(OBJS) $(LDLIBS) -o $@
-
 %.elf: $(OBJS) $(LIBDEPS) $(LDSCRIPT)
 	@echo "LD    $@"
-	$(Q)$(LD) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $@
+	$(Q)$(LD) $(LDFLAGS) -o $@ $(OBJS) $(LDLIBS)
 
 # Object rules.
 $(OBJDIR)/%.o: %.S $(OBJDEPS) | $(OBJDIR)
 	@echo "AS    $<"
 	$(call mkdir_if_needed,$@)
-	$(Q)$(CC) $(ASFLAGS) $(CPPFLAGS) -o $@ -c $<
+	$(Q)$(CC) $(CPPFLAGS) $(ASFLAGS) -o $@ -c $<
 
 $(OBJDIR)/%.o: %.c $(OBJDEPS) | $(OBJDIR)
 	@echo "CC    $<"
 	$(call mkdir_if_needed,$@)
-	$(Q)$(CC) $(CSTD) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
+	$(Q)$(CC) $(CPPFLAGS) $(CSTD) $(CFLAGS) -o $@ -c $<
 
 $(OBJDIR)/%.o: %.cc $(OBJDEPS) | $(OBJDIR)
 	@echo "CXX   $<"
 	$(call mkdir_if_needed,$@)
-	$(Q)$(CXX) $(CXXSTD) $(CXXFLAGS) $(CPPFLAGS) -o $@ -c $<
+	$(Q)$(CXX) $(CPPFLAGS) $(CXXSTD) $(CXXFLAGS) -o $@ -c $<
 
 # Include help rules.
 include $(BUILD)/print.mk
