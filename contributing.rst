@@ -100,7 +100,7 @@ Discussions and long analyses should be placed in the GitHub issue system.
 
 A good blog post about `Git commit messages`_.
 
-.. _`Git commit message`: https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
+.. _`Git commit messages`: https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
 
 Code formatting and quality
 ---------------------------
